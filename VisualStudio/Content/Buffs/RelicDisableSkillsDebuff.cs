@@ -23,29 +23,30 @@ public class RelicDisableSkillsDebuff : BuffBase
                 cursor.EmitDelegate<Action<CharacterBody>>(self =>
                 {
                     if (!self.hasAuthority) return;
-                    
-                    var disableSkill = LegacyResourcesAPI.Load<SkillDef>("Skills/DisabledSkills");
-                    if (!disableSkill)
-                    {
-                        LoELog.Warning("RelicDisableSkillsDebuff Failed to Find DisabledSkills SkillDef");
-                        return;
-                    }
 
-                    if (self.skillLocator)
+                    bool flag = self.HasBuff(Get());
+                    if (flag != self.allSkillsDisabled)
                     {
-                        if (self.HasBuff(Get()))
+                        var disabledSkill = LegacyResourcesAPI.Load<SkillDef>("Skills/DisabledSkills");
+                        if (!disabledSkill)
                         {
-                            if (self.skillLocator.primary) self.skillLocator.primary.SetSkillOverride(self, disableSkill, GenericSkill.SkillOverridePriority.Contextual);
-                            if (self.skillLocator.secondary) self.skillLocator.secondary.SetSkillOverride(self, disableSkill, GenericSkill.SkillOverridePriority.Contextual);
-                            if (self.skillLocator.utility) self.skillLocator.utility.SetSkillOverride(self, disableSkill, GenericSkill.SkillOverridePriority.Contextual);
-                            if (self.skillLocator.special) self.skillLocator.special.SetSkillOverride(self, disableSkill, GenericSkill.SkillOverridePriority.Contextual);
+                            LoELog.Warning("RelicDisableSkillsDebuff Failed to Find DisabledSkills SkillDef");
                             return;
                         }
                         
-                        if (self.skillLocator.primary) self.skillLocator.primary.UnsetSkillOverride(self, disableSkill, GenericSkill.SkillOverridePriority.Contextual);
-                        if (self.skillLocator.secondary) self.skillLocator.secondary.UnsetSkillOverride(self, disableSkill, GenericSkill.SkillOverridePriority.Contextual);
-                        if (self.skillLocator.utility) self.skillLocator.utility.UnsetSkillOverride(self, disableSkill, GenericSkill.SkillOverridePriority.Contextual);
-                        if (self.skillLocator.special) self.skillLocator.special.UnsetSkillOverride(self, disableSkill, GenericSkill.SkillOverridePriority.Contextual);
+                        if (flag)
+                        {
+                            if (self.skillLocator.primary) self.skillLocator.primary.SetSkillOverride(self, disabledSkill, GenericSkill.SkillOverridePriority.Contextual);
+                            if (self.skillLocator.secondary) self.skillLocator.secondary.SetSkillOverride(self, disabledSkill, GenericSkill.SkillOverridePriority.Contextual);
+                            if (self.skillLocator.utility) self.skillLocator.utility.SetSkillOverride(self, disabledSkill, GenericSkill.SkillOverridePriority.Contextual);
+                            if (self.skillLocator.special) self.skillLocator.special.SetSkillOverride(self, disabledSkill, GenericSkill.SkillOverridePriority.Contextual);
+                            return;
+                        }
+                        
+                        if (self.skillLocator.primary) self.skillLocator.primary.UnsetSkillOverride(self, disabledSkill, GenericSkill.SkillOverridePriority.Contextual);
+                        if (self.skillLocator.secondary) self.skillLocator.secondary.UnsetSkillOverride(self, disabledSkill, GenericSkill.SkillOverridePriority.Contextual);
+                        if (self.skillLocator.utility) self.skillLocator.utility.UnsetSkillOverride(self, disabledSkill, GenericSkill.SkillOverridePriority.Contextual);
+                        if (self.skillLocator.special) self.skillLocator.special.UnsetSkillOverride(self, disabledSkill, GenericSkill.SkillOverridePriority.Contextual);
                     }
                 });
                 return;

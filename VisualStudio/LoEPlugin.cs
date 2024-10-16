@@ -58,6 +58,7 @@ namespace LunarsOfExiguity
         {
             new PurifiedTier();
             new FracturedItem();
+            new PurifiedAutoCastEquipmentItem();
         }
 
         private void SetupReworks()

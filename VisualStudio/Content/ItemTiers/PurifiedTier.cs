@@ -4,6 +4,8 @@ namespace LunarsOfExiguity.Content.ItemTiers;
 
 public class PurifiedTier : ItemTierBase
 {
+    public static ItemTierDef PurifiedItemTierDef;
+    
     protected override string Name => "Purified";
 
     protected override ColorCatalog.ColorIndex Color => ColorCatalog.ColorIndex.BossItem;
@@ -14,6 +16,7 @@ public class PurifiedTier : ItemTierBase
 
     protected override void Initialize()
     {
+        PurifiedItemTierDef = Value;
         ItemCatalog.availability.CallWhenAvailable(() =>
         {
             ItemCatalog.GetItemDef(RoR2Content.Items.Pearl.itemIndex)._itemTierDef = Value;
